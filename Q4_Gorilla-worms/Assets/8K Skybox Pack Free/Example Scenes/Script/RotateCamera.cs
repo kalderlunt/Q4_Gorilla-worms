@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RotateCamera : MonoBehaviour {
+public class RotateCamera : MonoBehaviour 
+{
     float MouseRotateSpeed = 80f;
 
     // Use this for initialization
