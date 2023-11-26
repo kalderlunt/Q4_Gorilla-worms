@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
- 
+
     [SerializeField] private GameObject _feet;
     [SerializeField] private Rigidbody2D _rb;
 
@@ -13,13 +13,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 _moveVector;
     private Vector2 _direction;
-    
-    //private CustomInput _input = null;
 
+    private Vector2 _mousePos;
 
     private DetectGround _detectGround;
-
-
 
 
     private void Awake()
@@ -44,10 +41,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_detectGround.OnGround() && context.phase == InputActionPhase.Performed)
         {
-            print("wth");
             _rb.velocity += Vector2.up * _jumpForce;
         }
-            print(_rb.velocity);
     }
 
 
@@ -55,17 +50,20 @@ public class PlayerMovement : MonoBehaviour
     {
         _moveVector = context.ReadValue<Vector2>();
     }
-    
+
     public void onMovementCancel(InputAction.CallbackContext context)
     {
         _moveVector = Vector2.zero;
     }
 
-
-
-    public Vector2 getMousePos()
+    public void MousePos(InputAction.CallbackContext context)
     {
-        return Vector2.zero;
-        //return _mousePos;
+        _mousePos = context.ReadValue<Vector2>();
+        _mousePos = Camera.main.ScreenToWorldPoint(_mousePos);
+    }
+
+    public Vector2 GetMousePos()
+    {
+        return _mousePos;
     }
 }
