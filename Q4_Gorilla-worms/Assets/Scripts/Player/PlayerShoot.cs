@@ -23,30 +23,38 @@ public class PlayerShoot : MonoBehaviour
     private PlayerMovement _playerMovement;
 
 
-    [Range(-10, 10)] public float WindForce;
-    [Range(-10, 10)] public float Gravity;
+    //[Range(-10, 10)] public float WindForce;
+    //[Range(-10, 10)] public float Gravity;
 
-
+    
     private void Start()
     {
         _rbProjectile = transform.parent.GetComponent<Rigidbody2D>();
         _playerMovement = transform.parent.GetComponent<PlayerMovement>();
     }
 
-    public void ShootPerformed(InputAction.CallbackContext context)
-    {
-        _shooting = context.performed;
 
+    private void Update()
+    {
+        if (_shooting)
+        {
+            _currentMousePos = Camera.main.ScreenToWorldPoint(_playerMovement.GetMousePos());
+            _velocity = (_startMousePos - _currentMousePos) * _launchForce;
+            DrawTrajectory();
+        }
+    }
+
+    public void ShootPerformed(InputAction.CallbackContext context)
+    {   
         if (context.started)
         {
+            _trajectoryTimeStepCount = 15;
             _startMousePos = Camera.main.ScreenToWorldPoint(_playerMovement.GetMousePos());
         }
 
         if (context.performed)
         {
-            _currentMousePos = Camera.main.ScreenToWorldPoint(_playerMovement.GetMousePos());
-            _velocity = (_startMousePos - _currentMousePos) * _launchForce;
-            DrawTrajectory();
+            _shooting = true;
         }
 
         if (context.canceled)
@@ -57,23 +65,30 @@ public class PlayerShoot : MonoBehaviour
 
     private void DrawTrajectory()
     {
-        Vector3[] _positions = new Vector3[_trajectoryTimeStepCount];
+        Vector3[] positions = new Vector3[_trajectoryTimeStepCount];
         for (int i = 0; i < _trajectoryTimeStepCount; ++i)
         {
             float t = i * _trajectoryTimeStep;
             Vector3 pos = (Vector2)_spawnPoint.transform.position + _velocity * t * 0.5f * Physics2D.gravity * t * t;
 
-            _positions[i] = pos;
+            positions[i] = pos;
         }
-
-        _lineRenderer.SetPositions(_positions);
+        _lineRenderer.positionCount = _trajectoryTimeStepCount;
+        _lineRenderer.SetPositions(positions);
     }
 
     private void FireProjectile()
     {
-        GameObject pr = Instantiate(_projectilePrefab, _spawnPoint.transform.position, Quaternion.identity);
+        GameObject projectile = Instantiate(_projectilePrefab, _spawnPoint.transform.position, Quaternion.identity);
+        projectile.GetComponent<Rigidbody2D>().velocity = _velocity;
+        projectile.transform.parent = this.transform;
 
-        pr.GetComponent<Rigidbody2D>().velocity = _velocity;
+        ClearTrajectory();
+    }
+    private void ClearTrajectory()
+    {
+        _trajectoryTimeStepCount = 0;
+
     }
 
     /*private void FixedUpdate()
