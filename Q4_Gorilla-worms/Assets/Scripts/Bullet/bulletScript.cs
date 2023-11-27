@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class bulletScript : MonoBehaviour
 {
+    [SerializeField] private int _min_height;
+
     private Rigidbody2D _rb;
 
     private void Start()
@@ -14,10 +16,13 @@ public class Bullet : MonoBehaviour
         float angle = Mathf.Atan2(_rb.velocity.y, _rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (transform.position.y < -4)
+        if (transform.position.y < _min_height)
         {
             Destroy(this.gameObject);
         }
+        else
+        {
+            Destroy(this.gameObject, 15.0f);
+        }
     }
-
 }
