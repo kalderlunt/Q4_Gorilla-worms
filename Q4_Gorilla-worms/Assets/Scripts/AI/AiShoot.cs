@@ -135,7 +135,7 @@ public class AiShoot : MonoBehaviour
     private void Shoot(Vector2 shootvector)
     {
         GameObject newBall = Instantiate(balls, transform.position, Quaternion.identity);
-        newBall.GetComponent<bulletAiScript>().SetAngle(shootvector, 1.001f);
+        newBall.GetComponent<bulletAiScript>().SetAngle(shootvector, 1.008f);
         newBall.transform.parent = this.transform;
 
         //gamemanager.GetComponent<GameScript>().EndTurn(newball);
