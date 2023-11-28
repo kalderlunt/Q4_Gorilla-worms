@@ -22,11 +22,11 @@ public class AiShoot : MonoBehaviour
     private float _angle = 0;
     private float _shoot_force;
 
-    private List<Vector2> _se_oldpos = new List<Vector2>(); //se == shoot emulate
-    private Vector2 _se_position;
-    private Vector2 _se_velocity;
+    private List<Vector2> _oldpos = new List<Vector2>(); //se == shoot emulate
+    private Vector2 _position;
+    private Vector2 _velocity;
 
-    private int _se_iteration = 400;
+    private int _iteration = 400;
     private int _min_height = -30;
 
     private float _shoot_timer = 0;
@@ -87,25 +87,25 @@ public class AiShoot : MonoBehaviour
             _shoot_force += 1;
         }
 
-        _se_position = RB.position;
-        _se_oldpos.Clear();
+        _position = RB.position;
+        _oldpos.Clear();
         Vector2 _shoot_vector = new Vector2((float)Math.Cos(_angle), (float)Math.Sin(_angle));
         _shoot_vector *= _shoot_force;
-        _se_velocity = _shoot_vector;
+        _velocity = _shoot_vector;
 
-        for (int i = 0; i < _se_iteration; ++i)
+        for (int i = 0; i < _iteration; ++i)
         {
-            if (_se_position.y < _min_height)
+            if (_position.y < _min_height)
             {
                 break;
             }
 
-            _se_oldpos.Add(_se_position);
+            _oldpos.Add(_position);
 
-            _se_position += _se_velocity * Time.fixedDeltaTime;
-            _se_velocity += new Vector2(0, -9.80665f) * Time.fixedDeltaTime;
+            _position += _velocity * Time.fixedDeltaTime;
+            _velocity += new Vector2(0, -9.80665f) * Time.fixedDeltaTime;
 
-            var _raycast = Physics2D.CircleCast(_se_position, 0.5f, _se_velocity.normalized, 0.5f);
+            var _raycast = Physics2D.CircleCast(_position, 0.5f, _velocity.normalized, 0.5f);
 
             if (_raycast.collider != null)
             {
@@ -115,7 +115,7 @@ public class AiShoot : MonoBehaviour
                 }
             }
 
-            if (_target.GetComponent<CapsuleCollider2D>().OverlapPoint(_se_position))
+            if (_target.GetComponent<CapsuleCollider2D>().OverlapPoint(_position))
             {
                 Shoot(_shoot_vector);
                 _state = STATE.IDLE;
@@ -126,9 +126,9 @@ public class AiShoot : MonoBehaviour
 
     private void DrawDebugShooting()
     {
-        for (int i = 0; i < _se_oldpos.Count() - 1; ++i)
+        for (int i = 0; i < _oldpos.Count() - 1; ++i)
         {
-            Debug.DrawLine(_se_oldpos[i], _se_oldpos[i + 1], Color.red);
+            Debug.DrawLine(_oldpos[i], _oldpos[i + 1], Color.red);
         }
     }
 
@@ -137,8 +137,5 @@ public class AiShoot : MonoBehaviour
         GameObject newBall = Instantiate(balls, transform.position, Quaternion.identity);
         newBall.GetComponent<bulletAiScript>().SetAngle(shootvector, 1.008f);
         newBall.transform.parent = this.transform;
-
-        //gamemanager.GetComponent<GameScript>().EndTurn(newball);
     }
-
 }
