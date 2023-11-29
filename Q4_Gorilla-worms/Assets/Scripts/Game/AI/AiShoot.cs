@@ -26,7 +26,7 @@ public class AiShoot : MonoBehaviour
     private Vector2 _position;
     private Vector2 _velocity;
 
-    private int _iteration = 400;
+    private int _iteration = 200;
     private int _min_height = -30;
 
     private float _shoot_timer = 0;
@@ -50,7 +50,7 @@ public class AiShoot : MonoBehaviour
                 break;
 
             case STATE.TESTSHOOTING:
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < 150; i++)
                 {
                     TestShooting();
                     if (_state != STATE.TESTSHOOTING)

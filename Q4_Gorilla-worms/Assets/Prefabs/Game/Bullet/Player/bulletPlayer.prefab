@@ -162,4 +162,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minHeightLimit: -1
-  ExplosionRadius: {fileID: 8231805462489975736, guid: 275832a726dfec64eb0af5776d2deef6, type: 3}
+  _damageAmount: 20
+  _timeToDestroy: 10
+  _explosionPrefab: {fileID: 8231805462489975736, guid: 275832a726dfec64eb0af5776d2deef6, type: 3}

@@ -59,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
     public void MousePos(InputAction.CallbackContext context)
     {
         _mousePos = context.ReadValue<Vector2>();
-        _mousePos = Camera.main.ScreenToWorldPoint(_mousePos);
+        if (Camera.main != null)
+            _mousePos = Camera.main.ScreenToWorldPoint(_mousePos);
     }
 
     public Vector2 GetMousePos()
