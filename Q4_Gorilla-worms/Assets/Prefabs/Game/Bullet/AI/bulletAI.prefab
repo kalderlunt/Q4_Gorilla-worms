@@ -162,7 +162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76eb004a34cbbd841a46cd8c287a3701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _min_height: -5
+  _minHeightLimit: -1
+  _damageAmount: 20
+  _timeToDestroy: 10
+  _explosionPrefab: {fileID: 8231805462489975736, guid: 275832a726dfec64eb0af5776d2deef6, type: 3}
 --- !u!114 &5851551281523376390
 MonoBehaviour:
   m_ObjectHideFlags: 0

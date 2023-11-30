@@ -6,12 +6,17 @@ using UnityEngine.SceneManagement;
 public class Health : MonoBehaviour
 {
     public static Health instance; 
-    public float healthPlayer = 75.0f;
-    public float healthAI = 75.0f;
-    public float maxHealth = 100.0f;
 
-    public Image healthBarValueImage;
-    public TextMeshProUGUI healthText;
+    public static float _healthPlayer = 0f;
+    public static float _healthAi = 0f;
+
+    public float _maxHealth = 100.0f;
+
+    public Image _healthBarPlayerValueImage;
+    public Image _healthBarAiValueImage;
+    
+    public TextMeshProUGUI _healthTextPlayer;
+    public TextMeshProUGUI _healthTextAi;
 
     private void Awake()
     {
@@ -25,39 +30,50 @@ public class Health : MonoBehaviour
 
     void Start()
     {
-        healthPlayer = maxHealth;
-        healthAI = maxHealth;
+        _healthPlayer = _maxHealth;
+        _healthAi = _maxHealth;
     }
 
     void Update()
     {
-        healthBarValueImage.fillAmount = healthPlayer / maxHealth;
+        _healthBarPlayerValueImage.fillAmount = Mathf.Lerp(_healthBarPlayerValueImage.fillAmount, _healthPlayer / _maxHealth, 0.1f);
+        _healthBarAiValueImage.fillAmount = Mathf.Lerp(_healthBarAiValueImage.fillAmount, _healthAi / _maxHealth, 0.1f);
         
-        healthText.text = "♥ Player : " + healthPlayer.ToString();
+        _healthTextPlayer.text = "♥ Player : " + _healthPlayer.ToString();
+        _healthTextAi.text = "♥ AI : " + _healthAi.ToString();
 
-        if (healthPlayer >= maxHealth)
+        if (_healthPlayer >= _maxHealth)
         {
-            healthPlayer = maxHealth;
+            _healthPlayer = _maxHealth;
         }
+        else if (_healthAi >= _maxHealth)
+        {
+            _healthAi = _maxHealth;
+        }
+
         
-        if (healthAI >= maxHealth)
+        if (_healthPlayer >= 0 && _healthAi <= 0) // Player win
         {
-            healthAI = maxHealth;
+            SceneManager.LoadScene("Scenes/Menu");
         }
-
-        if (healthPlayer <= 0 || healthAI <= 0)
+        if (_healthPlayer <= 0 && _healthAi >= 0) // AI win
         {
             SceneManager.LoadScene("Scenes/Menu");
         }
     }
 
-    public void DamageHit(int damageAmount)
+    public static void DamageHitPlayer(int damageAmount)
     {
-        healthPlayer -= damageAmount;
+        _healthPlayer -= damageAmount;
+    }
+    public static void DamageHitAI(int damageAmount)
+    {
+        _healthAi -= damageAmount;
     }
 
-    public void HealDeal(int healAmount)
+
+    public static void HealDeal(float targetHealth, int healAmount)
     {
-        healthPlayer += healAmount;
+        targetHealth += healAmount;
     }
 }

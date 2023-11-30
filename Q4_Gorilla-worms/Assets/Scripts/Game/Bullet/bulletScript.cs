@@ -70,7 +70,14 @@ public class bulletScript : MonoBehaviour
 
             if (collision.gameObject.tag == "Player")
             {
-                Health.instance.DamageHit(_damageAmount);
+                Health.DamageHitPlayer(_damageAmount);
+                Destroy(this.gameObject);
+                return;
+            }
+
+            if (collision.gameObject.tag == "AI")
+            {
+                Health.DamageHitAI(_damageAmount);
                 Destroy(this.gameObject);
                 return;
             }

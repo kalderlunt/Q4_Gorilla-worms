@@ -185,7 +185,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.71
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.71
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -317,11 +317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a98edf8a39279e45afa95299faa9dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPlayer: 75
-  healthAI: 75
-  maxHealth: 100
-  healthBarValueImage: {fileID: 197952258}
-  healthText: {fileID: 1307790004}
+  _maxHealth: 100
+  _healthBarPlayerValueImage: {fileID: 197952258}
+  _healthBarAiValueImage: {fileID: 275021601}
+  _healthTextPlayer: {fileID: 1307790004}
+  _healthTextAi: {fileID: 1533185208}
 --- !u!1 &314159523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1553107995
 SpriteRenderer:
   m_ObjectHideFlags: 0
