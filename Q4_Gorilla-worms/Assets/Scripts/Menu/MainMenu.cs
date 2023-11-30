@@ -8,11 +8,15 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Scenes/Game");
     }
 
+    public void RestartMenu()
+    {
+        SceneManager.LoadScene("Scenes/Menu");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
     }
-
     /*private void Start()
     {
         QualitySettings.vSyncCount = 1;
