@@ -54,11 +54,11 @@ public class Health : MonoBehaviour
         
         if (_healthPlayer >= 0 && _healthAi <= 0) // Player win
         {
-            SceneManager.LoadScene("Scenes/Menu");
+            SceneManager.LoadScene("Scenes/FinVictoire");
         }
         if (_healthPlayer <= 0 && _healthAi >= 0) // AI win
         {
-            SceneManager.LoadScene("Scenes/Menu");
+            SceneManager.LoadScene("Scenes/FinDefaite");
         }
     }
 
