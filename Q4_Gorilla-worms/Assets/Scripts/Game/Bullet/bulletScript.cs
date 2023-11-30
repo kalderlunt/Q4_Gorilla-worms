@@ -3,8 +3,10 @@ using UnityEngine;
 public class bulletScript : MonoBehaviour
 {
     [SerializeField] private int _minHeightLimit = -1;
+    [SerializeField] private int _damageAmount = 20;
     [SerializeField] private float _timeToDestroy = 10.0f;
-    [SerializeField] private GameObject ExplosionRadius;
+
+    [SerializeField] private GameObject _explosionPrefab;
 
     private GameManager _gameManager;
     private Rigidbody2D _rb;
@@ -33,7 +35,7 @@ public class bulletScript : MonoBehaviour
                 Destroy(this.gameObject); 
 
                 GameObject newexplosion = null;
-                newexplosion = Instantiate(ExplosionRadius);
+                newexplosion = Instantiate(_explosionPrefab);
                 newexplosion.transform.position = transform.position;
 
                 _timer = 0;
@@ -55,16 +57,30 @@ public class bulletScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ExplosionRadius != null)
+        if (_explosionPrefab != null)
         {
             if (collision.gameObject.tag == "Map")
                 return;
-
-            ExplosionRadius.GetComponent<Rigidbody2D>();
+            
+            _explosionPrefab.GetComponent<Rigidbody2D>();
             GameObject newexplosion = null;
-            newexplosion = Instantiate(ExplosionRadius);
+            newexplosion = Instantiate(_explosionPrefab);
             newexplosion.transform.position = transform.position;
-            ExplosionRadius = null;
+            _explosionPrefab = null;
+
+            if (collision.gameObject.tag == "Player")
+            {
+                Health.DamageHitPlayer(_damageAmount);
+                Destroy(this.gameObject);
+                return;
+            }
+
+            if (collision.gameObject.tag == "AI")
+            {
+                Health.DamageHitAI(_damageAmount);
+                Destroy(this.gameObject);
+                return;
+            }
         }
         Destroy(this.gameObject);
     }
