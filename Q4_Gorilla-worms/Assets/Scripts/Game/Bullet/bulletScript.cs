@@ -5,8 +5,11 @@ public class bulletScript : MonoBehaviour
     [SerializeField] private int _minHeightLimit = -1;
     [SerializeField] private int _damageAmount = 20;
     [SerializeField] private float _timeToDestroy = 10.0f;
+    [SerializeField] private int _numberMaxCollisionWithMap = 3;
+    private int _numberCollisionWithMap = 0;
 
     [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _explosionRadiusPrefab;
 
     private GameManager _gameManager;
     private Rigidbody2D _rb;
@@ -60,28 +63,46 @@ public class bulletScript : MonoBehaviour
         if (_explosionPrefab != null)
         {
             if (collision.gameObject.tag == "Map")
+            {
+                _numberCollisionWithMap++;
+                if (_numberCollisionWithMap >= _numberMaxCollisionWithMap)
+                {
+                    NewExplosion();
+                }
                 return;
+            }
             
-            _explosionPrefab.GetComponent<Rigidbody2D>();
-            GameObject newexplosion = null;
-            newexplosion = Instantiate(_explosionPrefab);
-            newexplosion.transform.position = transform.position;
-            _explosionPrefab = null;
 
             if (collision.gameObject.tag == "Player")
             {
                 Health.DamageHitPlayer(_damageAmount);
-                Destroy(this.gameObject);
+                NewExplosion();
                 return;
             }
 
             if (collision.gameObject.tag == "AI")
             {
                 Health.DamageHitAI(_damageAmount);
-                Destroy(this.gameObject);
+                NewExplosion();
                 return;
             }
         }
         Destroy(this.gameObject);
+    }
+
+    private void NewExplosion()
+    {
+        Destroy(this.gameObject);
+        _explosionPrefab.GetComponent<Rigidbody2D>();
+        GameObject newExplosion = null;
+        newExplosion = Instantiate(_explosionPrefab);
+        newExplosion.transform.position = transform.position;
+        _explosionPrefab = null;
+        
+        _explosionRadiusPrefab.GetComponent<Rigidbody2D>();
+        GameObject newExplosionRadius = null;
+        newExplosionRadius = Instantiate(_explosionRadiusPrefab);
+        newExplosionRadius.transform.position = transform.position;
+        _explosionRadiusPrefab = null;
     }
 }
