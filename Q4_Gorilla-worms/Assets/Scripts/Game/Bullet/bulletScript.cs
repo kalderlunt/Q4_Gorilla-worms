@@ -4,9 +4,9 @@ public class bulletScript : MonoBehaviour
 {
     [SerializeField] private int _minHeightLimit = -1;
     [SerializeField] private int _damageAmount = 20;
-    [SerializeField] private int _numberCollisionWithMap = 0;
-    [SerializeField] private int _numberMaxCollisionWithMap = 3;
     [SerializeField] private float _timeToDestroy = 10.0f;
+    [SerializeField] private int _numberMaxCollisionWithMap = 3;
+    private int _numberCollisionWithMap = 0;
 
     [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private GameObject _explosionRadiusPrefab;
@@ -94,15 +94,15 @@ public class bulletScript : MonoBehaviour
     {
         Destroy(this.gameObject);
         _explosionPrefab.GetComponent<Rigidbody2D>();
-        GameObject newexplosion = null;
-        newexplosion = Instantiate(_explosionPrefab);
-        newexplosion.transform.position = transform.position;
+        GameObject newExplosion = null;
+        newExplosion = Instantiate(_explosionPrefab);
+        newExplosion.transform.position = transform.position;
         _explosionPrefab = null;
         
         _explosionRadiusPrefab.GetComponent<Rigidbody2D>();
-        GameObject newexplosionRadius = null;
-        newexplosionRadius = Instantiate(_explosionRadiusPrefab);
-        newexplosionRadius.transform.position = transform.position;
+        GameObject newExplosionRadius = null;
+        newExplosionRadius = Instantiate(_explosionRadiusPrefab);
+        newExplosionRadius.transform.position = transform.position;
         _explosionRadiusPrefab = null;
     }
 }

@@ -164,7 +164,7 @@ MonoBehaviour:
   _minHeightLimit: -1
   _damageAmount: 20
   _numberCollisionWithMap: 0
-  _numberMaxCollisionWithMap: 5
+  _numberMaxCollisionWithMap: 3
   _timeToDestroy: 10
   _explosionPrefab: {fileID: 8231805462489975736, guid: 275832a726dfec64eb0af5776d2deef6, type: 3}
   _explosionRadiusPrefab: {fileID: 8770450788577729920, guid: c8750e4143a9ded4cad4225226fb0776, type: 3}
