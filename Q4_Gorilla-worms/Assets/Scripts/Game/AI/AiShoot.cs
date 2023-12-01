@@ -50,7 +50,7 @@ public class AiShoot : MonoBehaviour
                 break;
 
             case STATE.TESTSHOOTING:
-                for (int i = 0; i < 150; i++)
+                for (int i = 0; i < _iteration; i++)
                 {
                     TestShooting();
                     if (_state != STATE.TESTSHOOTING)
