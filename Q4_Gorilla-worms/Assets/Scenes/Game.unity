@@ -483,8 +483,8 @@ MonoBehaviour:
   _startX: -25
   _startY: -30
   _width: 100
-  _minHeight: 4
-  _maxHeight: 10
+  _minHeight: 10
+  _maxHeight: 25
   _maxVariation: 8
   _repeatNum: 2
   _spikeSpawnHeight: 6
