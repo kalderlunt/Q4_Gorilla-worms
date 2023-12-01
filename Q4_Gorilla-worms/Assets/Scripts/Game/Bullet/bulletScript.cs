@@ -20,7 +20,10 @@ public class bulletScript : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        
+
+        _explosionPrefab.GetComponent<Rigidbody2D>();
+        _explosionRadiusPrefab.GetComponent<Rigidbody2D>();
+
         float r = UnityEngine.Random.Range(-7, 7);
         _wind = new Vector2(1, 0) * r;
     }
@@ -71,7 +74,6 @@ public class bulletScript : MonoBehaviour
                 }
                 return;
             }
-            
 
             if (collision.gameObject.tag == "Player")
             {
@@ -86,6 +88,7 @@ public class bulletScript : MonoBehaviour
                 NewExplosion();
                 return;
             }
+            NewExplosion();
         }
         Destroy(this.gameObject);
     }
@@ -93,13 +96,11 @@ public class bulletScript : MonoBehaviour
     private void NewExplosion()
     {
         Destroy(this.gameObject);
-        _explosionPrefab.GetComponent<Rigidbody2D>();
         GameObject newExplosion = null;
         newExplosion = Instantiate(_explosionPrefab);
         newExplosion.transform.position = transform.position;
         _explosionPrefab = null;
         
-        _explosionRadiusPrefab.GetComponent<Rigidbody2D>();
         GameObject newExplosionRadius = null;
         newExplosionRadius = Instantiate(_explosionRadiusPrefab);
         newExplosionRadius.transform.position = transform.position;
