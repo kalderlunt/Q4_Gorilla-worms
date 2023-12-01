@@ -9,32 +9,59 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private float maxtimer = 15;
-    [SerializeField] private float timerafteraction = 5;
-    
-    private GameObject HUD;
-    
-    private Camera _cam;
-    private float _camZ;
-    
-    private int numturn = 1;
-    private string teamturn; 
-    
-    private GameObject following_object;
-    private bool was_following = false;
-
-
     public float timer;
-    public GameObject Memberturn;
     public Vector2 wind;
+
+    [SerializeField] private GameObject _gameMenu;
+    [SerializeField] private GameObject _optionsMenu;
+    [SerializeField] private float maxtimer = 15;
+
+/*    [SerializeField] private float timerafteraction = 5;
+
+        private GameObject HUD;
+
+        private Camera _cam;
+        private float _camZ;
+
+        private int numturn = 1;
+        private string teamturn; 
+
+        private GameObject following_object;
+        private bool was_following = false;
+
+
+        public GameObject Memberturn;*/
 
     private void Start()
     {
-        HUD = GameObject.Find("HUD");
-        _cam = Camera.main;
-        _camZ = _cam.transform.position.z;
+        _gameMenu.SetActive(true);
+        _optionsMenu.SetActive(false);
+
+        /*        HUD = GameObject.Find("HUD");
+                _cam = Camera.main;
+                _camZ = _cam.transform.position.z;*/
         RandomizeWind();
-        EndTurn();
+        //EndTurn();
+    }
+
+    private void Update()
+    {
+        if (_gameMenu.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _gameMenu.SetActive(false);
+                _optionsMenu.SetActive(true);
+            }
+        }
+        else if (_optionsMenu.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _gameMenu.SetActive(true);
+                _optionsMenu.SetActive(false);
+            }
+        }
     }
 
     private void RandomizeWind()
@@ -44,7 +71,7 @@ public class GameManager : MonoBehaviour
     }
     private void UpdateHUD()
     {
-        TextMeshProUGUI hudturn = HUD.transform.Find("TextTurn").GetComponent<TextMeshProUGUI>();
+        /*TextMeshProUGUI hudturn = HUD.transform.Find("TextTurn").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI hudtimer = HUD.transform.Find("TextTimer").GetComponent<TextMeshProUGUI>();
         if (Memberturn != null)
         {
@@ -55,7 +82,7 @@ public class GameManager : MonoBehaviour
         {
             hudturn.text = " ";
             hudtimer.text = " ";
-        }
+        }*/
 
     }
 
@@ -63,7 +90,7 @@ public class GameManager : MonoBehaviour
     {
         timer = maxtimer;
     }
-
+/*
     private void RunTimer()
     {
         timer -= 1 * Time.fixedDeltaTime;
@@ -158,5 +185,5 @@ public class GameManager : MonoBehaviour
     {
         _cam.transform.position = Vector3.Lerp(_cam.transform.position, following.transform.position, 4f * Time.fixedDeltaTime);
         _cam.transform.position += new Vector3(0, 0, -_cam.transform.position.z + _camZ);
-    }
+    }*/
 }
