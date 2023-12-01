@@ -1163,7 +1163,7 @@ AudioSource:
   m_GameObject: {fileID: 788138840}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: b2ac93f7e8c21df4c9fa12862e4b4a8a, type: 2}
   m_audioClip: {fileID: 8300000, guid: 686dcd8b39034ed418eefb024ef40fb6, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1275,6 +1275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 852590706}
   - component: {fileID: 852590707}
+  - component: {fileID: 852590708}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1314,6 +1315,20 @@ MonoBehaviour:
   _gameMenu: {fileID: 1236070890}
   _optionsMenu: {fileID: 2097219636}
   maxtimer: 15
+--- !u!114 &852590708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852590705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e92e59126266ed94db39a07706a42974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundSlider: {fileID: 1942979959}
+  _masterMixer: {fileID: 24100000, guid: b2ac93f7e8c21df4c9fa12862e4b4a8a, type: 2}
 --- !u!1 &1022624226
 GameObject:
   m_ObjectHideFlags: 0
@@ -3099,7 +3114,7 @@ GameObject:
   - component: {fileID: 1942979958}
   - component: {fileID: 1942979959}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SliderVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3172,12 +3187,24 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1051903340}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0.7
+  m_Value: 70
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 852590708}
+        m_TargetAssemblyTypeName: SoundSettings, Assembly-CSharp
+        m_MethodName: SetVolumeFromSlider
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1944881077
 GameObject:
   m_ObjectHideFlags: 0
