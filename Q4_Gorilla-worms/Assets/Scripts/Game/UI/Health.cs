@@ -71,7 +71,6 @@ public class Health : MonoBehaviour
         _healthAi -= damageAmount;
     }
 
-
     public static void HealDeal(float targetHealth, int healAmount)
     {
         targetHealth += healAmount;
