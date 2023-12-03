@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 561177244}
   - component: {fileID: 561177245}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: SpriteAi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -814,7 +814,7 @@ GameObject:
   - component: {fileID: 651683567}
   - component: {fileID: 651683568}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: SpritePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1605,7 +1605,7 @@ MonoBehaviour:
   _launchForce: 1.5
   _trajectoryTimestep: 0.05
   _trajectoryStepCount: 15
-  animator: {fileID: 651683568}
+  animatorPlayer: {fileID: 651683568}
 --- !u!1 &1130963314
 GameObject:
   m_ObjectHideFlags: 0

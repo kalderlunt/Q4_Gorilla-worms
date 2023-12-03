@@ -2,7 +2,7 @@ using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
 
-public class LineHelp : MonoBehaviour
+public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Transform _projectilesPrefab;
     [SerializeField] Transform _spawnPoint;
@@ -14,12 +14,12 @@ public class LineHelp : MonoBehaviour
 
     Vector2 _velocity, _startMousePos, _currentMousePos;
 
-    public Animator animator;
+    public Animator animatorPlayer;
     private AnimatorStateInfo currentStateInfo;
 
     private void Start()
     {
-        animator.Play("Idle");
+        animatorPlayer.Play("Idle");
     }
 
     private void Update()
@@ -63,20 +63,20 @@ public class LineHelp : MonoBehaviour
         projectile.GetComponent<Rigidbody2D>().velocity = _velocity;
         projectile.transform.parent = this.transform; 
         
-        animator.Play("Attack");
+        animatorPlayer.Play("Attack");
 
-        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        StartCoroutine(ResetAnimation("Attack", "Idle", currentStateInfo.length));
+        currentStateInfo = animatorPlayer.GetCurrentAnimatorStateInfo(0);
+        StartCoroutine(WaitBeforeResetAnimation(animatorPlayer, "Attack", "Idle", currentStateInfo.length));
     }
 
-    IEnumerator ResetAnimation(string conditionName, string executionName, float time)
+    IEnumerator WaitBeforeResetAnimation(Animator WichAnimator, string conditionName, string executionName, float time)
     {
         yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
 
-        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        currentStateInfo = WichAnimator.GetCurrentAnimatorStateInfo(0);
         if (currentStateInfo.IsName(conditionName))
         {
-            animator.Play(executionName);
+            WichAnimator.Play(executionName);
         }
     }
 
