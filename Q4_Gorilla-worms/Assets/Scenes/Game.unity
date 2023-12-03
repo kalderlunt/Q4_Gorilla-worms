@@ -1053,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &788138841
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1412,6 +1412,7 @@ MonoBehaviour:
   balls: {fileID: 1657792439344499474, guid: cdb65a3e2bfd54844bf3a3b8e640d3b7, type: 3}
   _target: {fileID: 1649360570}
   RB: {fileID: 1553107997}
+  animator: {fileID: 561177245}
 --- !u!1 &1034105259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,7 +2506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1553107996
 Transform:
   m_ObjectHideFlags: 0

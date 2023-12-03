@@ -10,6 +10,8 @@ public class AiShoot : MonoBehaviour
     [SerializeField] private GameObject _target;
     
     [SerializeField] private Rigidbody2D RB;
+    
+    public Animator animator;
 
     private enum STATE
     {
@@ -79,6 +81,8 @@ public class AiShoot : MonoBehaviour
     }
     private void TestShooting()
     {
+        animator.Play("Idle Martial Hero");
+        
         DrawDebugShooting();
         _angle += 0.0015f;
         if (_angle > 3 * Math.PI / 2)
@@ -134,6 +138,8 @@ public class AiShoot : MonoBehaviour
 
     private void Shoot(Vector2 shootvector)
     {
+        animator.Play("Attack Martial Hero");
+
         GameObject newBall = Instantiate(balls, transform.position, Quaternion.identity);
         newBall.GetComponent<bulletAiScript>().SetAngle(shootvector, 1.008f);
         newBall.transform.parent = this.transform;
