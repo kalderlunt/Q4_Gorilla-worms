@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class Health : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class Health : MonoBehaviour
     
     public TextMeshProUGUI _healthTextPlayer;
     public TextMeshProUGUI _healthTextAi;
+
+    [Header("ANIMATION")]
+    public Animator playerAnimator;
+    private AnimatorStateInfo currentStateInfo;
 
     private void Awake()
     {
@@ -56,22 +61,53 @@ public class Health : MonoBehaviour
         {
             SceneManager.LoadScene("Scenes/FinVictoire");
         }
+
         if (_healthPlayer <= 0 && _healthAi >= 0) // AI win
         {
-            SceneManager.LoadScene("Scenes/FinDefaite");
+            playerAnimator.Play("Death");
+            currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+            StartCoroutine(AnimationLoadScene("Death", "Scenes/FinDefaite", currentStateInfo.length));
         }
     }
 
-    public static void DamageHitPlayer(int damageAmount)
+
+    IEnumerator ResetAnimation(string conditionName, string executionName, float time)
+    {
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+
+        currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            playerAnimator.Play(executionName);
+        }
+    }
+
+    IEnumerator AnimationLoadScene(string conditionName, string executionName, float time)
+    {
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+
+        currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            SceneManager.LoadScene(executionName);
+        }
+    }
+
+    public void HitPlayer(int damageAmount)
     {
         _healthPlayer -= damageAmount;
+
+        playerAnimator.Play("Hurt");
+        currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        StartCoroutine(ResetAnimation("Hurt", "Idle", currentStateInfo.length));
     }
-    public static void DamageHitAI(int damageAmount)
+
+    public void HitAI(int damageAmount)
     {
         _healthAi -= damageAmount;
     }
 
-    public static void HealDeal(float targetHealth, int healAmount)
+    public void HealDeal(float targetHealth, int healAmount)
     {
         targetHealth += healAmount;
     }
