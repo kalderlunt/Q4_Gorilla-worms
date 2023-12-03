@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private DetectGround _detectGround;
 
+    public Animator animator;
 
     private void Awake()
     {
@@ -36,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
         _rb.velocity += new Vector2(_speed * Time.deltaTime * _direction.x - _rb.velocity.x, 0);
     }
 
+    private void Update()
+    {
+        if (_moveVector == Vector2.zero)
+            animator.Play("Idle");
+    }
 
     public void PlayerJump(InputAction.CallbackContext context)
     {
@@ -48,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void onMovementPerformed(InputAction.CallbackContext context)
     {
+        animator.Play("Walk");
         _moveVector = context.ReadValue<Vector2>();
     }
 

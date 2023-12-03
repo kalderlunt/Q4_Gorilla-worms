@@ -434,6 +434,7 @@ MonoBehaviour:
   _healthTextPlayer: {fileID: 1307790004}
   _healthTextAi: {fileID: 1533185208}
   playerAnimator: {fileID: 651683568}
+  aiAnimator: {fileID: 561177245}
 --- !u!1 &314159523
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,7 +2615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1553107996
 Transform:
   m_ObjectHideFlags: 0
@@ -2892,6 +2893,7 @@ MonoBehaviour:
   _speed: 50
   _deceleration: 0.9
   _jumpForce: 15
+  animator: {fileID: 651683568}
 --- !u!50 &1649360573
 Rigidbody2D:
   serializedVersion: 4
