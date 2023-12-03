@@ -10,6 +10,7 @@ public class bulletScript : MonoBehaviour
 
     [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private GameObject _explosionRadiusPrefab;
+    [SerializeField] private AudioClip _hitSound;
 
     private GameManager _gameManager;
     private Rigidbody2D _rb;
@@ -90,11 +91,14 @@ public class bulletScript : MonoBehaviour
             }
             NewExplosion();
         }
+        
         Destroy(this.gameObject);
     }
 
     private void NewExplosion()
     {
+        SoundManager.PlaySound(_hitSound);
+
         Destroy(this.gameObject);
         GameObject newExplosion = null;
         newExplosion = Instantiate(_explosionPrefab);
