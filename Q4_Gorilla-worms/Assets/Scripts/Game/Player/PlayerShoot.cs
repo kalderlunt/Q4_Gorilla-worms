@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class LineHelp : MonoBehaviour
@@ -11,6 +13,14 @@ public class LineHelp : MonoBehaviour
     [SerializeField] int _trajectoryStepCount = 15;
 
     Vector2 _velocity, _startMousePos, _currentMousePos;
+
+    public Animator animator;
+    private AnimatorStateInfo currentStateInfo;
+
+    private void Start()
+    {
+        animator.Play("Idle");
+    }
 
     private void Update()
     {
@@ -51,7 +61,23 @@ public class LineHelp : MonoBehaviour
     {
         Transform projectile = Instantiate(_projectilesPrefab, _spawnPoint.position, Quaternion.identity);
         projectile.GetComponent<Rigidbody2D>().velocity = _velocity;
-        projectile.transform.parent = this.transform;
+        projectile.transform.parent = this.transform; 
+        
+        animator.Play("Attack");
+
+        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        StartCoroutine(ResetAnimation("Attack", "Idle", currentStateInfo.length));
+    }
+
+    IEnumerator ResetAnimation(string conditionName, string executionName, float time)
+    {
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+
+        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            animator.Play(executionName);
+        }
     }
 
     void ClearTrajectory()

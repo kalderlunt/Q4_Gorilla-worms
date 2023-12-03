@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEditor;
 
 public class Health : MonoBehaviour
 {
@@ -17,6 +19,12 @@ public class Health : MonoBehaviour
     
     public TextMeshProUGUI _healthTextPlayer;
     public TextMeshProUGUI _healthTextAi;
+
+    [Header("ANIMATION")]
+    public Animator playerAnimator;
+    public Animator aiAnimator;
+
+    private AnimatorStateInfo currentStateInfo;
 
     private void Awake()
     {
@@ -54,24 +62,60 @@ public class Health : MonoBehaviour
         
         if (_healthPlayer >= 0 && _healthAi <= 0) // Player win
         {
-            SceneManager.LoadScene("Scenes/FinVictoire");
+            aiAnimator.Play("Death Martial Hero");
+            currentStateInfo = aiAnimator.GetCurrentAnimatorStateInfo(0);
+            StartCoroutine(WaitAnimationLoadScene(aiAnimator, "Death Martial Hero", "Scenes/FinVictoire", currentStateInfo.length));
         }
+
         if (_healthPlayer <= 0 && _healthAi >= 0) // AI win
         {
-            SceneManager.LoadScene("Scenes/FinDefaite");
+            playerAnimator.Play("Death");
+            currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+            StartCoroutine(WaitAnimationLoadScene(playerAnimator, "Death", "Scenes/FinDefaite", currentStateInfo.length));
         }
     }
 
-    public static void DamageHitPlayer(int damageAmount)
+    IEnumerator WaitBeforeResetAnimation(Animator WichAnimator, string conditionName, string executionName, float time)
     {
-        _healthPlayer -= damageAmount;
-    }
-    public static void DamageHitAI(int damageAmount)
-    {
-        _healthAi -= damageAmount;
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+        
+        currentStateInfo = WichAnimator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            WichAnimator.Play(executionName);
+        }
     }
 
-    public static void HealDeal(float targetHealth, int healAmount)
+    IEnumerator WaitAnimationLoadScene(Animator WichAnimator, string conditionName, string executionName, float time)
+    {
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+
+        currentStateInfo = WichAnimator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            SceneManager.LoadScene(executionName);
+        }
+    }
+
+    public void HitPlayer(int damageAmount)
+    {
+        _healthPlayer -= damageAmount;
+
+        playerAnimator.Play("Hurt");
+        currentStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        StartCoroutine(WaitBeforeResetAnimation(playerAnimator,"Hurt", "Idle", currentStateInfo.length));
+    }
+
+    public void HitAI(int damageAmount)
+    {
+        _healthAi -= damageAmount;
+        
+        aiAnimator.Play("Hurt Martial Hero");
+        currentStateInfo = aiAnimator.GetCurrentAnimatorStateInfo(0);
+        StartCoroutine(WaitBeforeResetAnimation(aiAnimator, "Hurt Martial Hero", "Idle Martial Hero", currentStateInfo.length));
+    }
+
+    public void HealDeal(float targetHealth, int healAmount)
     {
         targetHealth += healAmount;
     }

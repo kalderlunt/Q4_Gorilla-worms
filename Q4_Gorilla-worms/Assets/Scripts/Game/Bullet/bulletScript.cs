@@ -17,6 +17,13 @@ public class bulletScript : MonoBehaviour
     
     private Vector2 _wind;
     private float _timer = 0;
+    
+    Health health;
+
+    private void Awake()
+    {
+        health = FindObjectOfType<Health>();
+    }
 
     private void Start()
     {
@@ -78,14 +85,14 @@ public class bulletScript : MonoBehaviour
 
             if (collision.gameObject.tag == "Player")
             {
-                Health.DamageHitPlayer(_damageAmount);
+                health.HitPlayer(_damageAmount);
                 NewExplosion();
                 return;
             }
 
             if (collision.gameObject.tag == "AI")
             {
-                Health.DamageHitAI(_damageAmount);
+                health.HitAI(_damageAmount);
                 NewExplosion();
                 return;
             }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class AiShoot : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class AiShoot : MonoBehaviour
     [SerializeField] private Rigidbody2D RB;
     
     public Animator animator;
+    private AnimatorStateInfo currentStateInfo;
 
     private enum STATE
     {
@@ -33,11 +35,17 @@ public class AiShoot : MonoBehaviour
 
     private float _shoot_timer = 0;
     private int _shoot_max_timer = 1; //in seconds
-    
+
+
     private void Awake()
     {
         //RB = GetComponent<Rigidbody2D>();
         //_target = GameObject.Find("Player");
+    }
+
+    private void Start()
+    {
+        animator.Play("Idle Martial Hero");
     }
 
     private void FixedUpdate()
@@ -81,8 +89,6 @@ public class AiShoot : MonoBehaviour
     }
     private void TestShooting()
     {
-        animator.Play("Idle Martial Hero");
-        
         DrawDebugShooting();
         _angle += 0.0015f;
         if (_angle > 3 * Math.PI / 2)
@@ -138,10 +144,23 @@ public class AiShoot : MonoBehaviour
 
     private void Shoot(Vector2 shootvector)
     {
-        animator.Play("Attack Martial Hero");
 
         GameObject newBall = Instantiate(balls, transform.position, Quaternion.identity);
         newBall.GetComponent<bulletAiScript>().SetAngle(shootvector, 1.008f);
         newBall.transform.parent = this.transform;
+                
+        animator.Play("Attack Martial Hero");
+        StartCoroutine(ResetAnimation("Attack Martial Hero", "Idle Martial Hero", currentStateInfo.length));
+    }
+
+    IEnumerator ResetAnimation(string conditionName, string executionName, float time)
+    {
+        yield return new WaitForSeconds(time); // Délai avant la réinitialisation de l'animation
+
+        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentStateInfo.IsName(conditionName))
+        {
+            animator.Play(executionName);
+        }
     }
 }
